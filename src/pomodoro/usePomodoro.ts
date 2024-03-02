@@ -60,11 +60,16 @@ export function usePomodoro() {
     setTimeInSeconds(DEFAULT_START_TIME);
   }
 
+  function resetFull() {
+    reset();
+    setCompletedIntervals(0);
+  }
+
   const { minutes, seconds } = formatTime(timeInSeconds);
 
   return {
     isOn,
-    reset,
+    resetFull,
     handleStartPauseClick,
     minutes,
     seconds,
