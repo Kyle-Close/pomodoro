@@ -89,3 +89,20 @@ button:focus-visible {
   background-color: white;
   border-radius: 2rem;
 }
+
+.empty-break-marker {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+}
+
+.filled-break-marker {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  border: 2px solid aquamarine;
+  background-color: aquamarine;
+  display: flex;
+}

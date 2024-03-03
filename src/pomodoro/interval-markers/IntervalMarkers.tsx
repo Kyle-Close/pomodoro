@@ -1,6 +1,8 @@
 import { IntervalStack } from '../usePomodoro';
 import { EmptyFocusInterval } from './EmptyFocusInterval';
 import { FilledFocusInterval } from './FilledFocusInterval';
+import { EmptyBreakInterval } from './EmptyBreakInterval';
+import { FilledBreakInterval } from './FilledBreakInterval';
 
 interface IntervalMarkersProps {
   intervalStack: IntervalStack;
@@ -14,7 +16,8 @@ export function IntervalMarkers({ intervalStack }: IntervalMarkersProps) {
         if (interval.isCompleted) temp.push(<FilledFocusInterval key={key} />);
         else temp.push(<EmptyFocusInterval key={key} />);
       } else {
-        temp.push(<div key={key}>O</div>);
+        if (interval.isCompleted) temp.push(<FilledBreakInterval key={key} />);
+        else temp.push(<EmptyBreakInterval key={key} />);
       }
     });
     return temp;

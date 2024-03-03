@@ -21,16 +21,19 @@ export function usePomodoro(intervalCount: number) {
 
       return () => clearTimeout(timeoutId);
     }
-  }, [currentIntervalIndex]);
+  }, [intervalStack]);
 
   useEffect(() => {
     if (timer.isCompleted) {
       // set current interval to completed
       updateCompletedInterval(currentIntervalIndex);
       // create new timer with new interval time
-      if (intervalCount > currentIntervalIndex) timer.reset(intervalStack[currentIntervalIndex + 1].time);
-      // increment currentIntervalIndex
-      setCurrentIntervalIndex((prev) => prev + 1);
+      if (intervalStack.length - 1 > currentIntervalIndex) {
+        console.log('inc interval index');
+        timer.reset(intervalStack[currentIntervalIndex + 1].time);
+        // increment currentIntervalIndex
+        setCurrentIntervalIndex((prev) => prev + 1);
+      }
     }
   }, [timer.isCompleted]);
 
