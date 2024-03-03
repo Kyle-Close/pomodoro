@@ -1,79 +1,85 @@
 import { useEffect, useRef, useState } from 'react';
+import JSConfetti from 'js-confetti';
+import { useTimer } from '../timer/useTimer';
 
-export function usePomodoro() {
-  const DEFAULT_START_TIME = 5; //25 * 60;
-  let intervalId = useRef<number | null>(null);
-  const [timeInSeconds, setTimeInSeconds] = useState(DEFAULT_START_TIME);
-  const [isOn, setIsOn] = useState(false);
-  const [intervalCount, setIntervalCount] = useState(3);
-  const [completedInvervals, setCompletedIntervals] = useState(0);
+export type IntervalStack = { isBreak: boolean; time: number; isCompleted: boolean }[];
+
+export function usePomodoro(intervalCount: number) {
+  const DEFAULT_FOCUS_INTERVAL = 5; //25 * 60;
+  const DEFAULT_BREAK_INTERVAL = 3; //5 * 60;
+  const [intervalStack, setIntervalStack] = useState<IntervalStack>(buildInitialIntervalStack());
+  const [currentIntervalIndex, setCurrentIntervalIndex] = useState(0);
+  const timer = useTimer(DEFAULT_FOCUS_INTERVAL);
 
   useEffect(() => {
-    if (timeInSeconds === 0) {
-      reset();
-      setCompletedIntervals((prev) => prev + 1);
-    }
-  }, [timeInSeconds]);
+    if (isComplete()) {
+      const jsConfetti = new JSConfetti();
+      jsConfetti.addConfetti();
+      const timeoutId = setTimeout(() => {
+        jsConfetti.clearCanvas();
+      }, 3000);
 
-  function start() {
-    if (!intervalId.current) {
-      intervalId.current = setInterval(() => {
-        setTimeInSeconds((prevTimeInSeconds) => prevTimeInSeconds - 1);
-      }, 1000);
+      return () => clearTimeout(timeoutId);
     }
-    setIsOn(true);
+  }, [currentIntervalIndex]);
+
+  useEffect(() => {
+    if (timer.isCompleted) {
+      // set current interval to completed
+      updateCompletedInterval(currentIntervalIndex);
+      // create new timer with new interval time
+      if (intervalCount > currentIntervalIndex) timer.reset(intervalStack[currentIntervalIndex + 1].time);
+      // increment currentIntervalIndex
+      setCurrentIntervalIndex((prev) => prev + 1);
+    }
+  }, [timer.isCompleted]);
+
+  function isComplete() {
+    return intervalStack.every((interval) => interval.isCompleted);
+  }
+  function updateCompletedInterval(index: number) {
+    setIntervalStack((prev) => {
+      const temp = [...prev];
+      temp[index].isCompleted = true;
+      return temp;
+    });
+  }
+  function buildInitialIntervalStack() {
+    const temp = [];
+    for (let i = 0; i < intervalCount; i++) {
+      temp.push({ isCompleted: false, isBreak: false, time: DEFAULT_FOCUS_INTERVAL });
+      if (intervalCount - 1 !== i) {
+        temp.push({ isCompleted: false, isBreak: true, time: DEFAULT_BREAK_INTERVAL });
+      }
+    }
+    return temp;
   }
 
-  function pause() {
-    if (intervalId.current) {
-      clearInterval(intervalId.current);
-      intervalId.current = null;
-      setIsOn(false);
-    }
+  function clearIntervalStack() {
+    setIntervalStack([]);
   }
 
   const handleStartPauseClick = () => {
-    if (intervalId.current) {
-      // timer is running
-      pause();
+    if (timer.isOn) {
+      timer.pause();
     } else {
-      // timer is off
-      start();
+      timer.start();
     }
   };
 
-  const formatTime = (timeInSeconds: number) => {
-    const date = new Date(timeInSeconds * 1000);
-    const minutes = formatNumberToString(date.getMinutes());
-    const seconds = formatNumberToString(date.getSeconds());
-    return { minutes, seconds };
-  };
-
-  function formatNumberToString(number: number) {
-    if (number < 10) {
-      return '0' + number;
-    } else return number.toString();
-  }
-
   function reset() {
-    pause();
-    setTimeInSeconds(DEFAULT_START_TIME);
+    timer.pause();
+    clearIntervalStack();
+    buildInitialIntervalStack();
   }
-
-  function resetFull() {
-    reset();
-    setCompletedIntervals(0);
-  }
-
-  const { minutes, seconds } = formatTime(timeInSeconds);
 
   return {
-    isOn,
-    resetFull,
     handleStartPauseClick,
-    minutes,
-    seconds,
+    minutes: timer.minutes,
+    seconds: timer.seconds,
     intervalCount,
-    completedInvervals,
+    intervalStack,
+    reset,
+    isOn: timer.isOn,
   };
 }
