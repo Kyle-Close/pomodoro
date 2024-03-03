@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import JSConfetti from 'js-confetti';
+import { useConfetti } from '../confetti/useConfetti';
+import { useEffect, useState } from 'react';
 import { useTimer } from '../timer/useTimer';
 
 export type IntervalStack = { isBreak: boolean; time: number; isCompleted: boolean }[];
@@ -9,29 +9,23 @@ export function usePomodoro(intervalCount: number) {
   const DEFAULT_BREAK_INTERVAL = 3; //5 * 60;
   const [intervalStack, setIntervalStack] = useState<IntervalStack>(buildInitialIntervalStack());
   const [currentIntervalIndex, setCurrentIntervalIndex] = useState(0);
+  const [isCompletedIntervals, setIsCompletedIntervals] = useState(false);
   const timer = useTimer(DEFAULT_FOCUS_INTERVAL);
+  const confetti = useConfetti();
 
   useEffect(() => {
     if (isComplete()) {
-      const jsConfetti = new JSConfetti();
-      jsConfetti.addConfetti();
-      const timeoutId = setTimeout(() => {
-        jsConfetti.clearCanvas();
-      }, 3000);
-
-      return () => clearTimeout(timeoutId);
+      confetti.execute();
+      timer.reset(DEFAULT_FOCUS_INTERVAL);
+      setIsCompletedIntervals(true);
     }
   }, [intervalStack]);
 
   useEffect(() => {
     if (timer.isCompleted) {
-      // set current interval to completed
       updateCompletedInterval(currentIntervalIndex);
-      // create new timer with new interval time
       if (intervalStack.length - 1 > currentIntervalIndex) {
-        console.log('inc interval index');
         timer.reset(intervalStack[currentIntervalIndex + 1].time);
-        // increment currentIntervalIndex
         setCurrentIntervalIndex((prev) => prev + 1);
       }
     }
@@ -58,10 +52,6 @@ export function usePomodoro(intervalCount: number) {
     return temp;
   }
 
-  function clearIntervalStack() {
-    setIntervalStack([]);
-  }
-
   const handleStartPauseClick = () => {
     if (timer.isOn) {
       timer.pause();
@@ -72,8 +62,9 @@ export function usePomodoro(intervalCount: number) {
 
   function reset() {
     timer.pause();
-    clearIntervalStack();
-    buildInitialIntervalStack();
+    setIntervalStack(buildInitialIntervalStack());
+    setCurrentIntervalIndex(0);
+    setIsCompletedIntervals(false);
   }
 
   return {
@@ -84,5 +75,6 @@ export function usePomodoro(intervalCount: number) {
     intervalStack,
     reset,
     isOn: timer.isOn,
+    isCompletedIntervals,
   };
 }

@@ -44,14 +44,16 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  background-color: darkgray;
+}
+
 .pomodoro-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: center;
-}
-
-.pomodoro-container-on {
 }
 
 .pomodoro-btn-container {

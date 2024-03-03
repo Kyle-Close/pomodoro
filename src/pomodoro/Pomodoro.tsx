@@ -11,7 +11,9 @@ export function Pomodoro() {
   return (
     <div className={containerClass}>
       <div className='pomodoro-btn-container'>
-        <button onClick={pomodoro.handleStartPauseClick}>{pomodoro.isOn ? 'Pause' : 'Start'}</button>
+        <button disabled={pomodoro.isCompletedIntervals} onClick={pomodoro.handleStartPauseClick}>
+          {pomodoro.isOn ? 'Pause' : 'Start'}
+        </button>
         <button onClick={pomodoro.reset}>Reset</button>
       </div>
       <div>
