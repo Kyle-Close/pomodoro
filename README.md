@@ -1,6 +1,5 @@
 # Pomodoro Timer
 
-## Description
 A simple, minimalistic, effective Pomodoro timer to help manage your time more effectively using the Pomodoro Technique. Designed to enhance productivity by breaking work into manageable intervals.
 
 ## Demo / Screenshots
