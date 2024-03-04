@@ -14,7 +14,7 @@ export function useTimer(initialSeconds: number) {
 
   function start() {
     if (!intervalId.current) {
-      intervalId.current = setInterval(() => {
+      intervalId.current = window.setInterval(() => {
         setTimeInSecondsRemaining((prevTimeInSeconds) => prevTimeInSeconds - 1);
       }, 1000);
     }
