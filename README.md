@@ -4,7 +4,7 @@
 A simple, minimalistic, effective Pomodoro timer to help manage your time more effectively using the Pomodoro Technique. Designed to enhance productivity by breaking work into manageable intervals.
 
 ## Demo / Screenshots
-[Live Demo]([URL](https://kyle-close.github.io/pomodoro/))
+[Live Demo](https://kyle-close.github.io/pomodoro/)
 
 ## Technologies Used
 - HTML
@@ -13,7 +13,7 @@ A simple, minimalistic, effective Pomodoro timer to help manage your time more e
 - React
 
 ## Installation
-1. Clone the repository: `git clone [URL](https://github.com/Kyle-Close/pomodoro.git)`
+1. Clone the repository: `git clone https://github.com/Kyle-Close/pomodoro.git`
 2. Install dependencies: `npm install`
 3. Start the application: `npm run dev`
 
