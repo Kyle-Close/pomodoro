@@ -5,8 +5,8 @@ import { useTimer } from '../timer/useTimer';
 export type IntervalStack = { isBreak: boolean; time: number; isCompleted: boolean }[];
 
 export function usePomodoro(intervalCount: number) {
-  const DEFAULT_FOCUS_INTERVAL = 5; //25 * 60;
-  const DEFAULT_BREAK_INTERVAL = 3; //5 * 60;
+  const DEFAULT_FOCUS_INTERVAL = 25 * 60;
+  const DEFAULT_BREAK_INTERVAL = 5 * 60;
   const [intervalStack, setIntervalStack] = useState<IntervalStack>(buildInitialIntervalStack());
   const [currentIntervalIndex, setCurrentIntervalIndex] = useState(0);
   const [isCompletedIntervals, setIsCompletedIntervals] = useState(false);
@@ -61,11 +61,13 @@ export function usePomodoro(intervalCount: number) {
   };
 
   function reset() {
-    timer.pause();
     setIntervalStack(buildInitialIntervalStack());
+    timer.reset(intervalStack[0].time);
     setCurrentIntervalIndex(0);
     setIsCompletedIntervals(false);
   }
+
+  const isBreak = intervalStack[currentIntervalIndex].isBreak;
 
   return {
     handleStartPauseClick,
@@ -76,5 +78,6 @@ export function usePomodoro(intervalCount: number) {
     reset,
     isOn: timer.isOn,
     isCompletedIntervals,
+    isBreak,
   };
 }
