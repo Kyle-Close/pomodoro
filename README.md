@@ -1,30 +1,28 @@
-# React + TypeScript + Vite
+# Project Title: Pomodoro Timer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
+A simple, minimalistic, effective Pomodoro timer to help manage your time more effectively using the Pomodoro Technique. Designed to enhance productivity by breaking work into manageable intervals.
 
-Currently, two official plugins are available:
+## Demo / Screenshots
+[Live Demo]([URL](https://kyle-close.github.io/pomodoro/))
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies Used
+- HTML
+- CSS
+- JavaScript
+- React
 
-## Expanding the ESLint configuration
+## Installation
+1. Clone the repository: `git clone [URL](https://github.com/Kyle-Close/pomodoro.git)`
+2. Install dependencies: `npm install`
+3. Start the application: `npm run dev`
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Usage
+Click 'Start' button to begin the focus interval. The countdown will start at 25 minutes can be paused at any time by clicking the same button (now labeled 'Pause').
 
-- Configure the top-level `parserOptions` property like this:
+Each completed interval will be indicated as such at the bottom of the timer. Focus intervals will light up as white rounded off rectangles. While break intervals are indicated with small green circles.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+If all 3 focus intervals are completed, confetti is displayed on the page and the reset button must be pressed to setup a new interval cycle.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Contact
+For any questions, suggestions, or comments, please reach out to me at [Email](mailto:k.james.close@gmail.com).
