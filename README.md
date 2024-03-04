@@ -1,4 +1,4 @@
-# Project Title: Pomodoro Timer
+# Pomodoro Timer
 
 ## Description
 A simple, minimalistic, effective Pomodoro timer to help manage your time more effectively using the Pomodoro Technique. Designed to enhance productivity by breaking work into manageable intervals.
@@ -25,4 +25,4 @@ Each completed interval will be indicated as such at the bottom of the timer. Fo
 If all 3 focus intervals are completed, confetti is displayed on the page and the reset button must be pressed to setup a new interval cycle.
 
 ## Contact
-For any questions, suggestions, or comments, please reach out to me at [Email](mailto:k.james.close@gmail.com).
+For any questions, suggestions, or comments, please reach out to me at [k.james.close@gmail.com](mailto:k.james.close@gmail.com).
